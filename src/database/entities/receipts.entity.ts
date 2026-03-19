@@ -5,7 +5,7 @@ export class Receipt {
 	@PrimaryGeneratedColumn('uuid')
 	receiptId: string;
 
-	@Column({ type: 'datetime' })
+	@Column()
 	issuedAt: Date;
 
 	@Column()

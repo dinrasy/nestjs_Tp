@@ -1,8 +1,5 @@
 import { UseGuards } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/common/guards/api-key.guard';
-
-
-
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ReceiptsService } from './receipts.service';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
