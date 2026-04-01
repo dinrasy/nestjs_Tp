@@ -5,6 +5,9 @@ import { ReceiptsModule } from './receipts/receipts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Receipt } from './database/entities/receipts.entity';
+import { NotificationsModule } from './notifications/notifications.module';
+import { OrdersModule } from './orders/orders.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { Receipt } from './database/entities/receipts.entity';
       synchronize: true,
     }),
     ReceiptsModule,
+    NotificationsModule,
+    OrdersModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
