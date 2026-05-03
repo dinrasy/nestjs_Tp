@@ -1,9 +1,10 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { CoreModule } from 'src/core/core.module';
+import { ReceiptsModule } from 'src/receipts/receipts.module';
 
 @Module({
-  imports: [CoreModule],
+  imports: [CoreModule, forwardRef(() => ReceiptsModule)],
   providers: [NotificationsService],
   exports: [NotificationsService],
 })
