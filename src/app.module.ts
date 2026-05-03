@@ -1,37 +1,30 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ReceiptsModule } from './receipts/receipts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { Receipt } from './database/entities/receipts.entity';
-import { NotificationsModule } from './notifications/notifications.module';
-import { OrdersModule } from './orders/orders.module';
-import { CoreModule } from './core/core.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+// Import the modern landing page
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { GraphqlModule } from './graphql/graphql.module';
+import { ReceiptsModule } from './receipts/receipts.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      // Support running from tp02/ while keeping .env one level above.
-      envFilePath: ['.env', '../.env'],
-    }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '123',
-      database: 'tp02',
-      entities: [Receipt],
+      type: 'sqlite',
+      database: 'tp02.sqlite',
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: true,
     }),
     ReceiptsModule,
-    NotificationsModule,
-    OrdersModule,
-    CoreModule,
+    GraphqlModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      // Set playground to false and use the plugin instead
+      playground: false, 
+      plugins: [ApolloServerPluginLandingPageLocalDefault()], 
+    }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

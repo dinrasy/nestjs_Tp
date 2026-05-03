@@ -1,0 +1,19 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ReceiptType {
+  id: ID!
+  name: String!
+  price: Float!
+  issuedAt: String!
+}
+
+type Query {
+  getReceipts: [ReceiptType!]!
+  getReceipt(id: String!): ReceiptType
+}
+
+type Mutation {
+  createReceipt(customerName: String!, amount: Float!): ReceiptType!
+}

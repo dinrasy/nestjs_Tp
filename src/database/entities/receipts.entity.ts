@@ -1,16 +1,16 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('receipts')
+@Entity()
 export class Receipt {
-	@PrimaryGeneratedColumn('uuid')
-	receiptId: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string; // Change 'receiptId' to 'id' to match GraphQL
 
-	@Column()
-	issuedAt: Date;
+  @Column()
+  name: string;
 
-	@Column()
-	name: string;
+  @Column('float')
+  price: number;
 
-	@Column('float')
-	price: number;
+  @Column()
+  issuedAt: Date;
 }

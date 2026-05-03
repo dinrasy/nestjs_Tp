@@ -9,8 +9,8 @@ import { NotificationsService } from 'src/notifications/notifications.service';
 @Injectable()
 export class ReceiptsService {
   constructor(
-    @InjectRepository(Receipt)
-    private readonly receiptRepo: Repository<Receipt>,
+    @InjectRepository(Receipt) // CRITICAL: This decorator must be here
+    private receiptRepo: Repository<Receipt>,
     private readonly notificationsService: NotificationsService,
   ) {}
 
@@ -19,7 +19,7 @@ export class ReceiptsService {
   }
 
   async findOne(receiptId: string) {
-    const receipt = await this.receiptRepo.findOne({ where: { receiptId } });
+    const receipt = await this.receiptRepo.findOne({ where: { id: receiptId } });
     if (!receipt) throw new NotFoundException('Receipt not found');
     return receipt;
   }
@@ -34,11 +34,12 @@ export class ReceiptsService {
     const saved = await this.receiptRepo.save(receipt);
     
     this.notificationsService.notify('receipt_created', {
-      receiptId: saved.receiptId,
+      receiptId: saved.id, // Changed from receiptId to id
       price: saved.price,
     });
-    return saved;
-  }
+    
+    return saved; // Now 'saved' contains 'id', which GraphQL is looking for
+}
 
   async update(receiptId: string, dto: UpdateReceiptDto) {
     const receipt = await this.findOne(receiptId);

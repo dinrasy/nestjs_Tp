@@ -1,0 +1,14 @@
+type Receipt {
+  id: ID!
+  customerName: String!
+  amount: Float!
+}
+
+type Query {
+  receipts: [Receipt!]!
+  receipt(id: ID!): Receipt
+}
+
+type Mutation {
+  createReceipt(customerName: String!, amount: Float!): Receipt!
+}

@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Receipt } from '../database/entities/receipts.entity';
-import { ReceiptsController } from './receipts.controller';
+import { TypeOrmModule } from '@nestjs/typeorm'; //
 import { ReceiptsService } from './receipts.service';
-import { Not } from 'typeorm';
-import { NotificationsModule } from 'src/notifications/notifications.module';
+import { ReceiptsController } from './receipts.controller';
+import { Receipt } from '../database/entities/receipts.entity'; //
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Receipt]),
+    // This line provides the DataSource connection to the Receipt Repository
+    TypeOrmModule.forFeature([Receipt]), 
     NotificationsModule,
   ],
-  controllers: [ReceiptsController],
   providers: [ReceiptsService],
+  controllers: [ReceiptsController],
+  exports: [ReceiptsService], 
 })
 export class ReceiptsModule {}
