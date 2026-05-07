@@ -2,18 +2,41 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CategoryType {
+  id: ID!
+  name: String!
+}
+
 type ReceiptType {
   id: ID!
   name: String!
   price: Float!
   issuedAt: String!
+  categoryId: ID!
+  category: CategoryType
+}
+
+type ProductType {
+  id: ID!
+  name: String!
+  price: Float!
+  categoryId: ID!
+  category: CategoryType
 }
 
 type Query {
-  getReceipts: [ReceiptType!]!
-  getReceipt(id: String!): ReceiptType
+  receipts: [ReceiptType!]!
+  receipt(id: String!): ReceiptType
+  products: [ProductType!]!
 }
 
 type Mutation {
-  createReceipt(customerName: String!, amount: Float!): ReceiptType!
+  createReceipt(name: String!, price: Float!, categoryId: String!): ReceiptType!
+  createProduct(input: CreateProductInput!): ProductType!
+}
+
+input CreateProductInput {
+  name: String!
+  price: Float!
+  categoryId: ID!
 }

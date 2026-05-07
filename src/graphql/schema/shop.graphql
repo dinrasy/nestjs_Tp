@@ -1,14 +1,24 @@
+# src/graphql/schema/shop.graphql
+type Category {
+  id: ID!
+  name: String!
+}
+
 type Receipt {
   id: ID!
-  customerName: String!
-  amount: Float!
+  name: String!
+  price: Float!
+  categoryId: ID!
+  category: Category
 }
 
 type Query {
+  categories: [Category!]!
   receipts: [Receipt!]!
   receipt(id: ID!): Receipt
 }
 
 type Mutation {
-  createReceipt(customerName: String!, amount: Float!): Receipt!
+  createCategory(name: String!): Category!
+  createReceipt(name: String!, price: Float!, categoryId: ID!): Receipt!
 }

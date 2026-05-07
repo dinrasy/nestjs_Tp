@@ -1,14 +1,17 @@
-// src/graphql/graphql.module.ts
 import { Module } from '@nestjs/common';
-import { ReceiptsModule } from '../receipts/receipts.module';
-import { ReceiptCodeFirstResolver } from './resolvers/receipt.codefirst.resolver';
-// import { ReceiptResolver } from './resolvers/receipt.resolver'; // Comment this out!
+import { ReceiptsModule } from '../receipts/receipts.module'; // Import the module
+import { ProductResolver } from './resolvers/product.resolver';
+import { CategoryCodeFirstResolver } from './resolvers/category.codefirst.resolver';
+import { ProductCodeFirstResolver } from './resolvers/product.codefirst.resolver';
 
 @Module({
-  imports: [ReceiptsModule],
+  imports: [
+    ReceiptsModule, // ✅ Add this to provide ReceiptsService to your resolvers
+  ],
   providers: [
-    // ReceiptResolver, // Comment this out!
-    ReceiptCodeFirstResolver,
+    ProductResolver,
+    CategoryCodeFirstResolver,
+    ProductCodeFirstResolver,
   ],
 })
 export class GraphqlModule {}
