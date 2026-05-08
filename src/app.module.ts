@@ -6,6 +6,8 @@ import { join } from 'path';
 import { GraphqlModule } from './graphql/graphql.module';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -19,10 +21,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     GraphqlModule, // Ensure this is imported
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      // 1. Code-First
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'), 
 
-      playground: true,
-    }),
-  ],
+      // 2. Schema-First by pointing to your .graphql files
+      // typePaths: [join(process.cwd(), 'src/graphql/schema/*.graphql')],
+
+        playground: true,
+      }), CategoryModule, ProductModule,
+    ],
 })
 export class AppModule {}

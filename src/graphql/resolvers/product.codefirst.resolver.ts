@@ -1,17 +1,39 @@
-import { Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
 import { ProductType } from '../types/product.type';
+// បើអ្នកមិនទាន់មាន CreateProductInput ទេ អាចកាត់វាចោលសិន ឬបង្កើតវា
+// import { CreateProductInput } from '../inputs/create-product.input';
+import { ProductService } from '../../product/product.service';
+import { CategoryService } from '../../category/category.service';
 import { CategoryType } from '../types/category.type';
+import { CreateProductInput } from '../inputs/create-product.input';
 
 @Resolver(() => ProductType)
 export class ProductCodeFirstResolver {
+  constructor(
+    private readonly productService: ProductService,
+    private readonly categoryService: CategoryService,
+  ) {}
+
+
+  @Query(() => [ProductType])
+  products() {
+    return this.productService.findAll();
+  }
+
+  @Query(() => ProductType, { nullable: true })
+  product(@Args('id') id: number) {
+    return this.productService.findOne(id);
+  }
+
   
-  // ✅ ADD THIS: Resolves the category relation for ProductType
+  @Mutation(() => ProductType)
+  createProduct(@Args('input') input: CreateProductInput) {
+    return this.productService.create(input);
+  }
+  
+
   @ResolveField(() => CategoryType, { nullable: true })
-  async category(@Parent() product: ProductType) {
-    // This connects the Product to its Category using the categoryId
-    return { 
-      id: product.categoryId, 
-      name: 'Software Tools' 
-    };
+  category(@Parent() product: ProductType) {
+    return this.categoryService.findOne(product.categoryId);
   }
 }

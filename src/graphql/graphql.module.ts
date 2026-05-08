@@ -1,16 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ReceiptsModule } from '../receipts/receipts.module'; // Import the module
+import { ReceiptsModule } from '../receipts/receipts.module'; 
+import { CategoryModule } from '../category/category.module'; 
+import { ProductModule } from '../product/product.module'; 
+
 import { ProductResolver } from './resolvers/product.resolver';
+import { CategoryResolver } from './resolvers/category.resolver'; 
 import { CategoryCodeFirstResolver } from './resolvers/category.codefirst.resolver';
 import { ProductCodeFirstResolver } from './resolvers/product.codefirst.resolver';
 
 @Module({
   imports: [
-    ReceiptsModule, // ✅ Add this to provide ReceiptsService to your resolvers
+    ReceiptsModule, 
+    CategoryModule, 
+    ProductModule   
   ],
   providers: [
-    ProductResolver,
-    CategoryCodeFirstResolver,
+    //ProductResolver,
+    //CategoryResolver, 
+    CategoryCodeFirstResolver, 
     ProductCodeFirstResolver,
   ],
 })

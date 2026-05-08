@@ -7,15 +7,6 @@ type CategoryType {
   name: String!
 }
 
-type ReceiptType {
-  id: ID!
-  name: String!
-  price: Float!
-  issuedAt: String!
-  categoryId: ID!
-  category: CategoryType
-}
-
 type ProductType {
   id: ID!
   name: String!
@@ -25,13 +16,13 @@ type ProductType {
 }
 
 type Query {
-  receipts: [ReceiptType!]!
-  receipt(id: String!): ReceiptType
+  categories: [CategoryType!]!
   products: [ProductType!]!
+  product(id: Float!): ProductType
 }
 
 type Mutation {
-  createReceipt(name: String!, price: Float!, categoryId: String!): ReceiptType!
+  createCategory(name: String!): CategoryType!
   createProduct(input: CreateProductInput!): ProductType!
 }
 
